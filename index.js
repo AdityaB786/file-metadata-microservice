@@ -5,14 +5,16 @@ require('dotenv').config();
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use('/public', express.static(process.cwd() + '/public'));
 
+// Serve HTML
 app.get('/', (req, res) => {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-// Configure multer
+// File upload handler
 const upload = multer({ dest: 'uploads/' });
 
 app.post('/api/fileanalyse', upload.single('upfile'), (req, res) => {
@@ -27,6 +29,7 @@ app.post('/api/fileanalyse', upload.single('upfile'), (req, res) => {
   });
 });
 
+// Start server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log('Your app is listening on port ' + port);
